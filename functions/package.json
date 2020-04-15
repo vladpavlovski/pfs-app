@@ -1,0 +1,43 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-runtime": "^6.26.0",
+    "camelcase": "^5.3.1",
+    "child-process-promise": "^2.2.1",
+    "firebase-admin": "^8.9.2",
+    "firebase-function-tools": "^1.1.3",
+    "firebase-functions": "^3.3.0",
+    "glob": "^7.1.6",
+    "mkdirp-promise": "^5.0.1",
+    "moment": "^2.24.0",
+    "nodemailer": "^6.4.2",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "uuid": "^3.4.0"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "private": true,
+  "scripts": {
+    "check": "npm-check -s -u",
+    "deploy": "firebase deploy --only functions",
+    "lint": "eslint .",
+    "logs": "firebase functions:log",
+    "serve": "firebase serve --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "test": "mocha --reporter spec --exit"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "firebase-functions-test": "^0.1.7",
+    "mocha": "^7.0.1",
+    "sinon": "^8.1.1"
+  }
+}
