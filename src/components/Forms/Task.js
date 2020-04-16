@@ -26,7 +26,7 @@ class Form extends Component {
           alignItems: 'strech',
           display: 'flex',
           flexWrap: 'wrap',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
         <button type="submit" style={{ display: 'none' }} />
@@ -63,9 +63,9 @@ class Form extends Component {
               itemToString={item => (item ? item.displayName : '')}
               inputProps={{
                 placeholder: intl.formatMessage({ id: 'helper_hint' }),
-                label: intl.formatMessage({ id: 'helper_label' })
+                label: intl.formatMessage({ id: 'helper_label' }),
               }}
-              renderSuggestion={({ rootProps, downshiftProps, suggestion, index }) => {
+              renderSuggestion={({ downshiftProps, suggestion, index }) => {
                 const { getItemProps, highlightedIndex } = downshiftProps
                 const itemProps = getItemProps({ item: suggestion })
                 const isHighlighted = highlightedIndex === index
@@ -90,7 +90,9 @@ Form.propTypes = {
   initialized: PropTypes.bool.isRequired,
   setDialogIsOpen: PropTypes.func.isRequired,
   dialogs: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  users: PropTypes.array,
+  intl: PropTypes.object.isRequired,
 }
 
 const selector = formValueSelector('task')
@@ -103,11 +105,10 @@ const mapStateToProps = state => {
     vehicleTypes,
     users: getList(state, 'users'),
     dialogs,
-    photoURL: selector(state, 'photoURL')
+    photoURL: selector(state, 'photoURL'),
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setDialogIsOpen }
-)(injectIntl(withRouter(withTheme(reduxForm({ form: 'task' })(Form)))))
+export default connect(mapStateToProps, { setDialogIsOpen })(
+  injectIntl(withRouter(withTheme(reduxForm({ form: 'task' })(Form))))
+)

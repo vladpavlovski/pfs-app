@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import PropTypes from 'prop-types'
 import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
 import Delete from '@material-ui/icons/Delete'
 import CollectionActivity from 'rmw-shell/lib/containers/Activities/CollectionActivity'
@@ -20,7 +22,11 @@ class Tasks extends Component {
       <div key={key}>
         <ListItem onClick={() => history.push(`/tasks/edit/${key}`)} key={key}>
           <AltIconAvatar alt="task" src={photoURL} icon={<Delete />} />
-          <ListItemText primary={title} secondary={full_name} style={{ minWidth: 120 }} />
+          <ListItemText
+            primary={title}
+            secondary={full_name}
+            style={{ minWidth: 120 }}
+          />
         </ListItem>
         <Divider variant="inset" />
       </div>
@@ -42,8 +48,8 @@ class Tasks extends Component {
   }
 }
 
-export default compose(
-  injectIntl,
-  withRouter,
-  withTheme
-)(Tasks)
+Tasks.propTypes = {
+  history: PropTypes.object.isRequired,
+}
+
+export default compose(injectIntl, withRouter, withTheme)(Tasks)

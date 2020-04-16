@@ -1,3 +1,4 @@
+/* eslint-disable promise/no-nesting */
 import * as functions from 'firebase-functions'
 import admin from 'firebase-admin'
 import moment from 'moment'
@@ -6,9 +7,9 @@ import notifications from 'firebase-function-tools/lib/notifications'
 
 const gmailEmail = encodeURIComponent(functions.config().gmail.email)
 const gmailPassword = encodeURIComponent(functions.config().gmail.password)
-const mailTransport = nodemailer.createTransport(
-  `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`
-)
+// const mailTransport = nodemailer.createTransport(
+//   `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`
+// )
 
 export default functions
   .region('europe-west1')
@@ -26,10 +27,7 @@ export default functions
     const receiverUid = context.params.receiverUid
     const messageUid = context.params.messageUid
     const snapValues = eventSnapshot.val()
-    const senderRef = admin
-      .database()
-      .ref(`/users/${senderUid}`)
-      .once('value')
+    const senderRef = admin.database().ref(`/users/${senderUid}`).once('value')
     const receiverRef = admin
       .database()
       .ref(`/users/${receiverUid}`)

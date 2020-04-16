@@ -5,23 +5,23 @@ var webdriver = require('selenium-webdriver')
 var test = require('./bs_test.js')
 
 // Input capabilities
-var iPhone = {
-  browserName: 'iPhone',
-  device: 'iPhone 7',
-  realMobile: 'true',
-  os_version: '10.3',
-  'browserstack.user': process.argv[2],
-  'browserstack.key': process.argv[3],
-}
+// var iPhone = {
+//   browserName: 'iPhone',
+//   device: 'iPhone 7',
+//   realMobile: 'true',
+//   os_version: '10.3',
+//   'browserstack.user': process.argv[2],
+//   'browserstack.key': process.argv[3],
+// }
 
-var android = {
-  browserName: 'android',
-  device: 'Samsung Galaxy S8',
-  realMobile: 'true',
-  os_version: '7.0',
-  'browserstack.user': process.argv[2],
-  'browserstack.key': process.argv[3],
-}
+// var android = {
+//   browserName: 'android',
+//   device: 'Samsung Galaxy S8',
+//   realMobile: 'true',
+//   os_version: '7.0',
+//   'browserstack.user': process.argv[2],
+//   'browserstack.key': process.argv[3],
+// }
 
 var desktopFF = {
   browserName: 'Firefox',
@@ -59,7 +59,7 @@ var iPhoneDriver = new webdriver.Builder()
   .withCapabilities(iPhone)
   .build()
 
- 
+
 var androidDriver = new webdriver.Builder()
   .usingServer('http://hub-cloud.browserstack.com/wd/hub')
   .withCapabilities(android)
@@ -81,8 +81,10 @@ var desktopIEDriver = new webdriver.Builder()
   .withCapabilities(desktopIE)
   .build()
 
-//test.runTest(iPhoneDriver)
-//test.runTest(androidDriver)
+// eslint-disable-next-line jest/no-commented-out-tests
+// test.runTest(iPhoneDriver)
+// eslint-disable-next-line jest/no-commented-out-tests
+// test.runTest(androidDriver)
 test.runTest(desktopFFDriver)
 test.runTest(desktopEdgeDriver)
 test.runTest(desktopIEDriver)

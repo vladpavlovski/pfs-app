@@ -13,7 +13,14 @@ import { withTheme } from '@material-ui/core/styles'
 
 class Form extends Component {
   render() {
-    const { handleSubmit, intl, initialized, setDialogIsOpen, dialogs, match } = this.props
+    const {
+      handleSubmit,
+      intl,
+      initialized,
+      setDialogIsOpen,
+      dialogs,
+      match,
+    } = this.props
 
     const uid = match.params.uid
 
@@ -26,7 +33,7 @@ class Form extends Component {
           alignItems: 'strech',
           display: 'flex',
           flexWrap: 'wrap',
-          justifyContent: 'center'
+          justifyContent: 'center',
         }}
       >
         <button type="submit" style={{ display: 'none' }} />
@@ -109,9 +116,12 @@ Form.propTypes = {
   initialized: PropTypes.bool.isRequired,
   setDialogIsOpen: PropTypes.func.isRequired,
   dialogs: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired
+  match: PropTypes.object.isRequired,
+  intl: PropTypes.object.isRequired,
+  change: PropTypes.func,
 }
 
+// eslint-disable-next-line no-class-assign
 Form = reduxForm({ form: 'company' })(Form)
 const selector = formValueSelector('company')
 
@@ -123,11 +133,10 @@ const mapStateToProps = state => {
     vehicleTypes,
     users,
     dialogs,
-    photoURL: selector(state, 'photoURL')
+    photoURL: selector(state, 'photoURL'),
   }
 }
 
-export default connect(
-  mapStateToProps,
-  { setDialogIsOpen }
-)(injectIntl(withRouter(withTheme(Form))))
+export default connect(mapStateToProps, { setDialogIsOpen })(
+  injectIntl(withRouter(withTheme(Form)))
+)

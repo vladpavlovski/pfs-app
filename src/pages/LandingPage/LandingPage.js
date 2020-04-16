@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
@@ -292,7 +293,7 @@ const LandingPage = ({ classes, history, theme }) => {
                   <Typography>{formatMessage(messages, 'main.set')}</Typography>
                   <br />
                   <Typography className={classes.pos} color="textSecondary">
-                    {'import App from \'rmw-shell\''}
+                    {"import App from 'rmw-shell'"}
                     <br />
                     {'<App appConfig={{ configureStore, ...config }} />'}
                   </Typography>
@@ -341,6 +342,12 @@ const LandingPage = ({ classes, history, theme }) => {
       </div>
     </div>
   )
+}
+
+LandingPage.propTypes = {
+  history: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
 }
 
 export default withRouter(withStyles(styles, { withTheme: true })(LandingPage))

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import IconButton from '@material-ui/core/IconButton'
+import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
 import { Activity } from 'rmw-shell'
@@ -15,16 +16,18 @@ class About extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      text: ''
+      text: '',
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     fetch(README)
       .then(response => response.text())
       .then(text => {
-        this.setState({ text: text })
+        this.setState({ text })
+        return text
       })
+      .catch(console.log)
   }
 
   render() {
@@ -33,7 +36,11 @@ class About extends Component {
     return (
       <Activity
         appBarContent={
-          <IconButton href="https://github.com/TarikHuber/react-most-wanted" target="_blank" rel="noopener">
+          <IconButton
+            href="https://github.com/TarikHuber/react-most-wanted"
+            target="_blank"
+            rel="noopener"
+          >
             <GitHubIcon />
           </IconButton>
         }
@@ -47,6 +54,10 @@ class About extends Component {
       </Activity>
     )
   }
+}
+
+About.propTypes = {
+  intl: PropTypes.object.isRequired,
 }
 
 export default injectIntl(About)

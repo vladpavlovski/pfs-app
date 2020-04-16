@@ -6,7 +6,8 @@ import blue from '@material-ui/core/colors/blue'
 const themes = [
   {
     id: 'default',
-    color: blue[500]
+    color: blue[500],
+    fontFamily: 'Arial',
   },
   {
     id: 'red',
@@ -15,9 +16,9 @@ const themes = [
       palette: {
         primary: red,
         secondary: pink,
-        error: red
-      }
-    }
+        error: red,
+      },
+    },
   },
   {
     id: 'green',
@@ -26,10 +27,10 @@ const themes = [
       palette: {
         primary: green,
         secondary: red,
-        error: red
-      }
-    }
-  }
+        error: red,
+      },
+    },
+  },
 ]
 
 export default themes

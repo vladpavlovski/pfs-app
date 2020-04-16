@@ -1,13 +1,14 @@
+/* eslint-disable no-undef */
 importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js')
 importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js')
 
 firebase.initializeApp({
-  messagingSenderId: '258373383650',
+  messagingSenderId: '216168336170',
 })
 
 const messaging = firebase.messaging()
 
-messaging.setBackgroundMessageHandler(function(payload) {
+messaging.setBackgroundMessageHandler(function (payload) {
   console.log(
     '[firebase-messaging-sw.js] Received background message ',
     payload

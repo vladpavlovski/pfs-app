@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import EditDocumentActivity from 'rmw-shell/lib/containers/Activities/EditDocumentActivity'
 import Form from '../../components/Forms/Task'
 import React from 'react'
+import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 
 const name = 'task'
@@ -11,9 +13,15 @@ const Edit = props => {
   const validate = values => {
     const errors = {}
 
-    errors.name = !values.name ? intl.formatMessage({ id: 'error_required_field' }) : ''
-    errors.full_name = !values.full_name ? intl.formatMessage({ id: 'error_required_field' }) : ''
-    errors.vat = !values.vat ? intl.formatMessage({ id: 'error_required_field' }) : ''
+    errors.name = !values.name
+      ? intl.formatMessage({ id: 'error_required_field' })
+      : ''
+    errors.full_name = !values.full_name
+      ? intl.formatMessage({ id: 'error_required_field' })
+      : ''
+    errors.vat = !values.vat
+      ? intl.formatMessage({ id: 'error_required_field' })
+      : ''
 
     return errors
   }
@@ -23,13 +31,16 @@ const Edit = props => {
       name={name}
       path={path}
       fireFormProps={{
-        validate
+        validate,
       }}
       isGranted={s => g => true}
     >
       <Form {...props} />
     </EditDocumentActivity>
   )
+}
+Edit.propTypes = {
+  intl: PropTypes.object.isRequired,
 }
 
 export default injectIntl(Edit)

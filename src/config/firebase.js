@@ -8,13 +8,15 @@ import 'firebase/messaging'
 import 'firebase/performance'
 
 const firebaseApp = firebase.initializeApp(
-  process.env.NODE_ENV !== 'production' ? config.firebase_config_dev : config.firebase_config
+  process.env.NODE_ENV !== 'production'
+    ? config.firebase_config_dev
+    : config.firebase_config
 )
 
 firebase
   .firestore()
   .enablePersistence({ synchronizeTabs: true })
-  .catch(function(err) {
+  .catch(function (err) {
     if (err.code === 'failed-precondition') {
       console.log('failed-precondition')
       // Multiple tabs open, persistence can only be enabled

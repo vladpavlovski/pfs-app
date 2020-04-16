@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import CountUp from 'react-countup'
 import Group from '@material-ui/icons/Group'
@@ -12,7 +13,9 @@ import { withTheme } from '@material-ui/core/styles'
 import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
 
 const currentYear = new Date().getFullYear()
-const daysPath = `/user_registrations_per_day/${currentYear}/${new Date().toISOString().slice(5, 7)}`
+const daysPath = `/user_registrations_per_day/${currentYear}/${new Date()
+  .toISOString()
+  .slice(5, 7)}`
 const monthsPath = `/user_registrations_per_month/${currentYear}`
 const providerPath = '/provider_count'
 
@@ -64,9 +67,9 @@ class Dashboard extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: daysData
-        }
-      ]
+          data: daysData,
+        },
+      ],
     }
 
     let monthsLabels = []
@@ -107,9 +110,9 @@ class Dashboard extends Component {
           pointHoverBorderWidth: 2,
           pointRadius: 1,
           pointHitRadius: 10,
-          data: monthsData
-        }
-      ]
+          data: monthsData,
+        },
+      ],
     }
 
     let providersData = []
@@ -121,7 +124,9 @@ class Dashboard extends Component {
         .sort()
         .map(key => {
           providersLabels.push(intl.formatMessage({ id: key }))
-          providersBackgrounColors.push(intl.formatMessage({ id: `${key}_color` }))
+          providersBackgrounColors.push(
+            intl.formatMessage({ id: `${key}_color` })
+          )
           providersData.push(providers[key])
           return key
         })
@@ -133,9 +138,9 @@ class Dashboard extends Component {
         {
           data: providersData,
           backgroundColor: providersBackgrounColors,
-          hoverBackgroundColor: providersBackgrounColors
-        }
-      ]
+          hoverBackgroundColor: providersBackgrounColors,
+        },
+      ],
     }
 
     return (
@@ -162,13 +167,13 @@ class Dashboard extends Component {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              marginTop: 50
+              marginTop: 50,
             }}
           >
             <div style={{ flexGrow: 1, flexShrink: 1, maxWidth: 600 }}>
               <Line
                 options={{
-                  maintainAspectRatio: true
+                  maintainAspectRatio: true,
                 }}
                 data={monthsComponentData}
               />
@@ -177,7 +182,7 @@ class Dashboard extends Component {
             <div style={{ flexGrow: 1, flexShrink: 1, maxWidth: 600 }}>
               <Bar
                 options={{
-                  maintainAspectRatio: true
+                  maintainAspectRatio: true,
                 }}
                 data={daysComponentData}
               />
@@ -194,25 +199,43 @@ class Dashboard extends Component {
               alignItems: 'center',
               justifyContent: 'center',
               width: '100%',
-              marginTop: 50
+              marginTop: 50,
             }}
           >
-            <div style={{ flexGrow: 1, flexShrink: 1, maxWidth: 600, justifyContent: 'center' }}>
+            <div
+              style={{
+                flexGrow: 1,
+                flexShrink: 1,
+                maxWidth: 600,
+                justifyContent: 'center',
+              }}
+            >
               <Doughnut data={providersComponentData} />
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 30 }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                margin: 30,
+              }}
+            >
               <CountUp
                 style={{
                   fontSize: 100,
                   color: theme.palette.primary.main,
-                  fontFamily: theme.fontFamily
+                  // fontFamily: theme.fontFamily,
                 }}
                 start={0}
                 end={usersCount}
               />
               <div>
-                <Group color="secondary" className="material-icons" style={{ fontSize: 70, marginLeft: 16 }} />
+                <Group
+                  color="secondary"
+                  className="material-icons"
+                  style={{ fontSize: 70, marginLeft: 16 }}
+                />
               </div>
             </div>
           </div>
@@ -222,6 +245,16 @@ class Dashboard extends Component {
   }
 }
 
+Dashboard.propTypes = {
+  intl: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired,
+  watchPath: PropTypes.func,
+  days: PropTypes.array.isRequired,
+  months: PropTypes.array.isRequired,
+  providers: PropTypes.array.isRequired,
+  usersCount: PropTypes.number,
+}
+
 const mapStateToProps = state => {
   const { paths } = state
 
@@ -229,8 +262,10 @@ const mapStateToProps = state => {
     days: paths[daysPath],
     months: paths[monthsPath],
     providers: paths[providerPath],
-    usersCount: paths['users_count'] ? paths['users_count'] : 0
+    usersCount: paths['users_count'] ? paths['users_count'] : 0,
   }
 }
 
-export default connect(mapStateToProps)(injectIntl(withTheme(withFirebase(Dashboard))))
+export default connect(mapStateToProps)(
+  injectIntl(withTheme(withFirebase(Dashboard)))
+)

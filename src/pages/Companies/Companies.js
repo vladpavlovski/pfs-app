@@ -1,4 +1,5 @@
 import AltIconAvatar from 'rmw-shell/lib/components/AltIconAvatar'
+import PropTypes from 'prop-types'
 import Business from '@material-ui/icons/Business'
 import Divider from '@material-ui/core/Divider'
 import ListActivity from 'rmw-shell/lib/containers/Activities/ListActivity'
@@ -56,6 +57,10 @@ class Companies extends Component {
       />
     )
   }
+}
+
+Companies.propTypes = {
+  history: PropTypes.object.isRequired,
 }
 
 export default compose(injectIntl, withRouter, withTheme)(Companies)
