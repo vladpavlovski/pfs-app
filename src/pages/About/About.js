@@ -1,59 +1,35 @@
-import React, { Component } from 'react'
+import React from 'react'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
+import FacebookIcon from '@material-ui/icons/Facebook'
 import { Activity } from 'rmw-shell'
-import ReactMarkdown from 'react-markdown'
-import Scrollbar from 'rmw-shell/lib/components/Scrollbar/Scrollbar'
-import README from './README.md'
+// import Scrollbar from 'rmw-shell/lib/components/Scrollbar/Scrollbar'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
-require('github-markdown-css')
+const About = props => {
+  const { intl } = props
 
-class About extends Component {
-  // Sorry for using setState here but I have to remove 'marked' from the dependencies
-  // because of a vulnerability issue
-  constructor(props) {
-    super(props)
-    this.state = {
-      text: '',
-    }
-  }
-
-  componentDidMount() {
-    fetch(README)
-      .then(response => response.text())
-      .then(text => {
-        this.setState({ text })
-        return text
-      })
-      .catch(console.log)
-  }
-
-  render() {
-    const { intl } = this.props
-
-    return (
-      <Activity
-        appBarContent={
-          <IconButton
-            href="https://github.com/TarikHuber/react-most-wanted"
-            target="_blank"
-            rel="noopener"
-          >
-            <GitHubIcon />
-          </IconButton>
-        }
-        title={intl.formatMessage({ id: 'about' })}
-      >
-        <Scrollbar>
-          <div style={{ backgroundColor: 'white', padding: 12 }}>
-            <ReactMarkdown className="markdown-body" source={this.state.text} />
-          </div>
-        </Scrollbar>
-      </Activity>
-    )
-  }
+  return (
+    <Activity
+      appBarContent={
+        <IconButton
+          href="https://www.facebook.com/groups/364185134231386"
+          target="_blank"
+          rel="noopener"
+        >
+          <FacebookIcon />
+        </IconButton>
+      }
+      title={intl.formatMessage({ id: 'about' })}
+    >
+      <PerfectScrollbar>
+        <div style={{ backgroundColor: 'white', padding: 12 }}>
+          Prague Footbal Socienty Rules
+        </div>
+      </PerfectScrollbar>
+    </Activity>
+  )
 }
 
 About.propTypes = {

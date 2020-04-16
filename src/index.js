@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Loadable from 'react-loadable'
 import LoadingComponent from 'rmw-shell/lib/components/LoadingComponent'
+import 'react-perfect-scrollbar/dist/css/styles.css'
 //import App from './App'
 
 const Loading = () => <LoadingComponent />
