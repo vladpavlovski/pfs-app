@@ -10,7 +10,7 @@ import React, { useEffect } from 'react'
 import Toolbar from '@material-ui/core/Toolbar'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
-import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
+import FacebookIcon from '@material-ui/icons/Facebook'
 import { Helmet } from 'react-helmet'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
@@ -145,7 +145,6 @@ const styles = theme => ({
 
 const match = parseLanguages(['en', 'es', 'bs', 'ru', 'de'], 'en')
 
-// eslint-disable-next-line react/prop-types
 const LandingPage = ({ classes, history, theme }) => {
   const messages = messageSources[match]
 
@@ -189,7 +188,7 @@ const LandingPage = ({ classes, history, theme }) => {
           <Tooltip id="tooltip-icon1" title="Sign in">
             <IconButton
               name="signin"
-              aria-label="Open Github"
+              aria-label="Sign in"
               color="inherit"
               onClick={() => {
                 history.push('/signin')
@@ -199,16 +198,16 @@ const LandingPage = ({ classes, history, theme }) => {
               <LockIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip id="tooltip-icon2" title="GitHub repository">
+          <Tooltip id="tooltip-icon2" title="Facebook group">
             <IconButton
-              name="github"
-              aria-label="Open Github"
+              name="facebook"
+              aria-label="Open Facebook"
               color="inherit"
-              href="https://github.com/TarikHuber/react-most-wanted"
+              href="https://www.facebook.com/groups/364185134231386"
               target="_blank"
               rel="noopener"
             >
-              <GitHubIcon />
+              <FacebookIcon />
             </IconButton>
           </Tooltip>
         </Toolbar>
@@ -217,11 +216,6 @@ const LandingPage = ({ classes, history, theme }) => {
       <div className={classes.root}>
         <div className={classes.hero}>
           <div className={classes.content}>
-            <img
-              src="/rmw.svg"
-              alt="Material-UI Logo"
-              className={classes.logo}
-            />
             <div className={classes.text}>
               <Typography
                 variant="h3"
@@ -269,20 +263,6 @@ const LandingPage = ({ classes, history, theme }) => {
                     rmw-react-scripts{' '}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      var win = window.open(
-                        'https://github.com/TarikHuber/rmw-shell',
-                        '_blank'
-                      )
-                      win.focus()
-                    }}
-                  >
-                    {formatMessage(messages, 'main.more')}
-                  </Button>
-                </CardActions>
               </Card>
               <Card className={classes.card}>
                 <CardContent>
@@ -298,20 +278,6 @@ const LandingPage = ({ classes, history, theme }) => {
                     {'<App appConfig={{ configureStore, ...config }} />'}
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={() => {
-                      var win = window.open(
-                        'https://github.com/TarikHuber/react-most-wanted',
-                        '_blank'
-                      )
-                      win.focus()
-                    }}
-                  >
-                    {formatMessage(messages, 'main.more')}
-                  </Button>
-                </CardActions>
               </Card>
               <Card className={classes.card}>
                 <CardContent>
