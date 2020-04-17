@@ -84,7 +84,7 @@
     "eject": "react-scripts eject"
   },
   "author": "Vlad Pavlovski",
-  "homepage": "https://github.com/vladpavlovski/pfs-app",
+  "homepage": "https://pfs-app-development.firebaseapp.com",
   "license": "MIT",
   "repository": "https://github.com/vladpavlovski/pfs-app",
   "lint-staged": {
