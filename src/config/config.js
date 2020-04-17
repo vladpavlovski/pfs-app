@@ -18,7 +18,7 @@ const LPAsync = Loadable({
 const config = {
   firebase_config: {
     apiKey: 'AIzaSyCYDhXr_d_T1lF-CpzdRaB-yfhNT5tShPQ',
-    authDomain: 'pfs-app-prod.firebaseapp.com',
+    // authDomain: 'pfs-app-prod.firebaseapp.com',
     databaseURL: 'https://pfs-app-prod.firebaseio.com',
     projectId: 'pfs-app-prod',
     storageBucket: 'pfs-app-prod.appspot.com',
@@ -28,7 +28,7 @@ const config = {
   },
   firebase_config_devp: {
     apiKey: 'AIzaSyCYDhXr_d_T1lF-CpzdRaB-yfhNT5tShPQ',
-    authDomain: 'pfs-app-prod.firebaseapp.com',
+    // authDomain: 'pfs-app-prod.firebaseapp.com',
     databaseURL: 'https://pfs-app-prod.firebaseio.com',
     projectId: 'pfs-app-prod',
     storageBucket: 'pfs-app-prod.appspot.com',
@@ -38,7 +38,7 @@ const config = {
   },
   firebase_config_dev: {
     apiKey: 'AIzaSyB6Y4XaeMt8PU2UiXYJbnKpM9eCbUnfB3Q',
-    authDomain: 'pfs-app-development.firebaseapp.com',
+    // authDomain: 'pfs-app-development.firebaseapp.com',
     databaseURL: 'https://pfs-app-development.firebaseio.com',
     projectId: 'pfs-app-development',
     storageBucket: 'pfs-app-development.appspot.com',
