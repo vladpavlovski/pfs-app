@@ -84,6 +84,7 @@ const MaterialUiSearchBox = ({
       setState({ value: initialValue })
       onChangeDebounced(initialValue)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const { setSimpleValue } = getActions(useDispatch())
