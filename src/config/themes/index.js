@@ -1,3 +1,4 @@
+import { createMuiTheme } from '@material-ui/core/styles'
 import red from '@material-ui/core/colors/red'
 import pink from '@material-ui/core/colors/pink'
 import green from '@material-ui/core/colors/green'
@@ -7,7 +8,11 @@ const themes = [
   {
     id: 'default',
     color: blue[500],
-    fontFamily: 'Arial',
+    source: {
+      palette: {
+        primary: blue,
+      },
+    },
   },
   {
     id: 'red',
@@ -32,5 +37,31 @@ const themes = [
     },
   },
 ]
+
+export const getThemeSource = (t, ts) => {
+  if (ts) {
+    for (let i = 0; i < ts.length; i++) {
+      if (ts[i]['id'] === t.source) {
+        const source = ts[i]['source']
+        const palette = source != null ? source.palette : {}
+
+        return createMuiTheme({
+          ...source,
+          typography: {
+            useNextVariants: true,
+          },
+          palette: { ...palette, type: t.isNightModeOn ? 'dark' : 'light' },
+        })
+      }
+    }
+  }
+
+  return createMuiTheme({
+    typography: {
+      useNextVariants: true,
+    },
+    palette: { type: t.isNightModeOn ? 'dark' : 'light' },
+  }) // Default theme
+}
 
 export default themes

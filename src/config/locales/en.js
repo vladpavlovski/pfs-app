@@ -158,6 +158,14 @@ const messages = defineMessages({
   workers_label: 'Workers',
   worth_hint: 'Enter worth',
   worth_label: 'Worth',
+  default: 'Default',
+  red: 'Red',
+  green: 'Green',
+  fr: 'French',
+  night_mode: 'Night mode',
+  day_mode: 'Day mode',
+  install: 'Install',
+  operator_contains_label: 'Operator contains label',
 })
 
 export default messages

@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import EditDocumentActivity from 'rmw-shell/lib/containers/Activities/EditDocumentActivity'
+import EditDocumentActivity from '../../containers/Activities/EditDocumentActivity'
 import Form from '../../components/Forms/Task'
 import React from 'react'
 import PropTypes from 'prop-types'

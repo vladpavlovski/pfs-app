@@ -6,7 +6,7 @@ import locales from './locales'
 import routes from './routes'
 import themes from './themes'
 import grants from './grants'
-import parseLanguages from 'rmw-shell/lib/utils/localeTools'
+import parseLanguages from '../utils/localeTools'
 
 const Loading = () => <LoadingComponent />
 

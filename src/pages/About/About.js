@@ -4,8 +4,7 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import FacebookIcon from '@material-ui/icons/Facebook'
 import { Activity } from 'rmw-shell'
-// import Scrollbar from 'rmw-shell/lib/components/Scrollbar/Scrollbar'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import Scrollbar from '../../components/Scrollbar/Scrollbar'
 
 const About = props => {
   const { intl } = props
@@ -23,11 +22,11 @@ const About = props => {
       }
       title={intl.formatMessage({ id: 'about' })}
     >
-      <PerfectScrollbar>
+      <Scrollbar>
         <div style={{ backgroundColor: 'white', padding: 12 }}>
           Prague Footbal Socienty Rules
         </div>
-      </PerfectScrollbar>
+      </Scrollbar>
     </Activity>
   )
 }

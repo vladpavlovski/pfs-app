@@ -4,13 +4,13 @@ import CountUp from 'react-countup'
 import Group from '@material-ui/icons/Group'
 import React, { Component } from 'react'
 import { Activity } from 'rmw-shell'
-import { GitHubIcon } from 'rmw-shell/lib/components/Icons'
+import { GitHubIcon } from '../../components/Icons'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { withFirebase } from 'firekit-provider'
 import { withTheme } from '@material-ui/core/styles'
-import Scrollbar from 'rmw-shell/lib/components/Scrollbar'
+import Scrollbar from '../../components/Scrollbar'
 
 const currentYear = new Date().getFullYear()
 const daysPath = `/user_registrations_per_day/${currentYear}/${new Date()
@@ -249,9 +249,9 @@ Dashboard.propTypes = {
   intl: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   watchPath: PropTypes.func,
-  days: PropTypes.array.isRequired,
-  months: PropTypes.array.isRequired,
-  providers: PropTypes.array.isRequired,
+  days: PropTypes.object,
+  months: PropTypes.object,
+  providers: PropTypes.object,
   usersCount: PropTypes.number,
 }
 

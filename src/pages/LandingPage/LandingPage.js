@@ -19,7 +19,7 @@ import messages_de from './de.json'
 import messages_bs from './bs.json'
 import messages_es from './es.json'
 import messages_ru from './ru.json'
-import parseLanguages, { formatMessage } from 'rmw-shell/lib/utils/localeTools'
+import parseLanguages, { formatMessage } from '../../utils/localeTools'
 
 const messageSources = {
   de: messages_de,
