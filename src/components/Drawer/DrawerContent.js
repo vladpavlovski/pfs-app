@@ -1,5 +1,5 @@
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
-import React from 'react'
 import Scrollbar from '../../components/Scrollbar'
 import SelectableMenuList from '../../containers/SelectableMenuList'
 import { compose } from 'redux'
@@ -12,19 +12,22 @@ import { withTheme } from '@material-ui/core/styles'
 export const DrawerContent = props => {
   const { appConfig, dialogs, match, messaging, drawer } = props
 
-  const handleChange = (event, index) => {
-    const { history, setDrawerMobileOpen } = props
+  const handleChange = useCallback(
+    (event, index) => {
+      const { history, setDrawerMobileOpen } = props
 
-    if (index !== undefined) {
-      setDrawerMobileOpen(false)
-    }
+      if (index !== undefined) {
+        setDrawerMobileOpen(false)
+      }
 
-    if (index !== undefined && index !== Object(index)) {
-      history.push(index)
-    }
-  }
+      if (index !== undefined && index !== Object(index)) {
+        history.push(index)
+      }
+    },
+    [props]
+  )
 
-  const handleSignOut = async () => {
+  const handleSignOut = useCallback(async () => {
     const { userLogout, setDialogIsOpen, appConfig, setDrawerOpen } = props
 
     await appConfig.firebaseLoad().then(async ({ firebaseApp }) => {
@@ -53,7 +56,7 @@ export const DrawerContent = props => {
           setDialogIsOpen('auth_menu', false)
         })
     })
-  }
+  }, [messaging.token, props])
 
   const isAuthMenu = !!dialogs.auth_menu
 

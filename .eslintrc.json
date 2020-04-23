@@ -22,7 +22,10 @@
     "sourceType": "module"
   },
   "plugins": ["react", "react-hooks", "jest"],
-  "rules": {},
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
   "settings": {
     "react": {
       "createClass": "createReactClass",

@@ -30,6 +30,7 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 import moment from 'moment'
+import requestNotificationPermission from '../../utils/messaging'
 
 export class ChatsList extends Component {
   state = {
@@ -49,7 +50,7 @@ export class ChatsList extends Component {
     const { watchList, path } = this.props
     watchList(path)
 
-    //requestNotificationPermission(this.props)
+    requestNotificationPermission(this.props)
   }
 
   componentWillUnmount() {

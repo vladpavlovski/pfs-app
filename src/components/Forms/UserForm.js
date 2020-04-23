@@ -3,7 +3,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import IconButton from '@material-ui/core/IconButton'
 import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback } from 'react'
 import Switch from '@material-ui/core/Switch'
 import Typography from '@material-ui/core/Typography'
 import classNames from 'classnames'
@@ -38,24 +38,34 @@ const styles = theme => ({
   },
 })
 
-class UserForm extends Component {
-  isLinkedWithProvider = provider => {
-    const { auth } = this.props
+const UserForm = props => {
+  const {
+    auth,
+    intl,
+    handleAdminChange,
+    isAdmin,
+    classes,
+    appConfig,
+    values,
+  } = props
+  const isLinkedWithProvider = useCallback(
+    provider => {
+      try {
+        return (
+          auth &&
+          auth.providerData &&
+          auth.providerData.find(p => {
+            return p.providerId === provider
+          }) !== undefined
+        )
+      } catch (e) {
+        return false
+      }
+    },
+    [auth]
+  )
 
-    try {
-      return (
-        auth &&
-        auth.providerData &&
-        auth.providerData.find(p => {
-          return p.providerId === provider
-        }) !== undefined
-      )
-    } catch (e) {
-      return false
-    }
-  }
-
-  getProviderIcon = p => {
+  const getProviderIcon = useCallback(p => {
     switch (p) {
       case 'google.com':
         return <GoogleIcon />
@@ -72,78 +82,63 @@ class UserForm extends Component {
       default:
         return undefined
     }
-  }
+  }, [])
 
-  render() {
-    const {
-      intl,
-      handleAdminChange,
-      isAdmin,
-      classes,
-      appConfig,
-      values,
-    } = this.props
+  return (
+    <div className={classes.root}>
+      {values.photoURL && (
+        <Avatar
+          alt={''}
+          src={values.photoURL}
+          className={classNames(classes.avatar, classes.bigAvatar)}
+        />
+      )}
+      {!values.photoURL && (
+        <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
+          {' '}
+          <Person style={{ fontSize: 60 }} />{' '}
+        </Avatar>
+      )}
 
-    return (
-      <div className={classes.root}>
-        {values.photoURL && (
-          <Avatar
-            alt={''}
-            src={values.photoURL}
-            className={classNames(classes.avatar, classes.bigAvatar)}
-          />
-        )}
-        {!values.photoURL && (
-          <Avatar className={classNames(classes.avatar, classes.bigAvatar)}>
-            {' '}
-            <Person style={{ fontSize: 60 }} />{' '}
-          </Avatar>
-        )}
-
-        <div>
-          {appConfig.firebase_providers.map((p, i) => {
-            if (p !== 'email' && p !== 'password' && p !== 'phone') {
-              return (
-                <IconButton
-                  key={i}
-                  disabled={!this.isLinkedWithProvider(p)}
-                  color="primary"
-                >
-                  {this.getProviderIcon(p)}
-                </IconButton>
-              )
-            } else {
-              return <div key={i} />
-            }
-          })}
-        </div>
-        <br />
-
-        <Typography variant="h4" gutterBottom>
-          {values.displayName}
-        </Typography>
-
-        <div>
-          <FormControlLabel
-            control={<Switch checked={isAdmin} onChange={handleAdminChange} />}
-            label={intl.formatMessage({ id: 'is_admin_label' })}
-          />
-        </div>
+      <div>
+        {appConfig.firebase_providers.map((p, i) => {
+          if (p !== 'email' && p !== 'password' && p !== 'phone') {
+            return (
+              <IconButton
+                key={i}
+                disabled={!isLinkedWithProvider(p)}
+                color="primary"
+              >
+                {getProviderIcon(p)}
+              </IconButton>
+            )
+          } else {
+            return <div key={i} />
+          }
+        })}
       </div>
-    )
-  }
+      <br />
+
+      <Typography variant="h4" gutterBottom>
+        {values.displayName}
+      </Typography>
+
+      <div>
+        <FormControlLabel
+          control={<Switch checked={isAdmin} onChange={handleAdminChange} />}
+          label={intl.formatMessage({ id: 'is_admin_label' })}
+        />
+      </div>
+    </div>
+  )
 }
 
 UserForm.propTypes = {
   appConfig: PropTypes.shape({
-    firebase_providers: PropTypes.shape({
-      map: PropTypes.func,
-    }),
+    firebase_providers: PropTypes.array,
   }),
   auth: PropTypes.shape({
-    providerData: PropTypes.shape({
-      find: PropTypes.func,
-    }),
+    providerData: PropTypes.array,
   }),
   classes: PropTypes.shape({
     avatar: PropTypes.any,

@@ -289,9 +289,7 @@ Messages.propTypes = {
   }),
   uid: PropTypes.any,
   unwatchList: PropTypes.func,
-  userChats: PropTypes.shape({
-    forEach: PropTypes.func,
-  }),
+  userChats: PropTypes.array,
   watchList: PropTypes.func,
 }
 

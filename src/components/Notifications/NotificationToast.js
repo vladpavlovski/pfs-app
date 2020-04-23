@@ -27,18 +27,13 @@ export const NotificationToast = props => {
     },
   })
 
-  // eslint-disable-next-line react/prop-types
-  const { icon, title, body, autoClose } = notification
+  const { icon, title, body, autoClose, onClick } = notification
 
   return (
     <ThemeProvider theme={innerTheme}>
       <Paper style={{ margin: -8, marginBottom: -8 }}>
         <List component="div">
-          <ListItem
-            onClick={() => {
-              notification.onClick()
-            }}
-          >
+          <ListItem onClick={onClick}>
             <ListItemIcon>
               <AltIconAvatar
                 src={icon}
@@ -63,9 +58,7 @@ export const NotificationToast = props => {
 
 NotificationToast.propTypes = {
   closeToast: PropTypes.any,
-  notification: PropTypes.shape({
-    onClick: PropTypes.func,
-  }),
+  notification: PropTypes.any,
 }
 
 export default NotificationToast

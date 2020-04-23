@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import OfflinePin from '@material-ui/icons/OfflinePin'
 import Phone from '@material-ui/icons/Phone'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
@@ -36,14 +36,24 @@ import Person from '@material-ui/icons/Person'
 
 const path = 'users'
 
-export class Users extends Component {
-  componentDidMount() {
-    const { watchList } = this.props
-
+export const Users = props => {
+  const {
+    watchList,
+    history,
+    isSelecting,
+    list,
+    intl,
+    theme,
+    setFilterIsOpen,
+    hasFilters,
+    isLoading,
+  } = props
+  useEffect(() => {
     watchList(path)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  getProviderIcon = provider => {
+  const getProviderIcon = useCallback(provider => {
     const color = 'primary'
 
     switch (provider.providerId) {
@@ -62,125 +72,118 @@ export class Users extends Component {
       default:
         return undefined
     }
-  }
+  }, [])
 
-  handleRowClick = user => {
-    const { history, isSelecting } = this.props
-    history.push(
-      isSelecting
-        ? `/${isSelecting}/${user.key}`
-        : `/${path}/edit/${user.key}/profile`
-    )
-  }
+  const handleRowClick = useCallback(
+    user => {
+      history.push(
+        isSelecting
+          ? `/${isSelecting}/${user.key}`
+          : `/${path}/edit/${user.key}/profile`
+      )
+    },
+    [history, isSelecting]
+  )
 
-  renderItem = (index, key) => {
-    const { list, intl } = this.props
-    const {
-      displayName = 'User',
-      thumbnail,
-      photoURL,
-      lastOnline,
-      connections,
-      providerData,
-    } = list[index].val || {}
+  const renderItem = useCallback(
+    (index, key) => {
+      const {
+        displayName = 'User',
+        thumbnail,
+        photoURL,
+        lastOnline,
+        connections,
+        providerData,
+      } = list[index].val || {}
 
-    return (
-      <div key={key}>
-        <ListItem
-          key={key}
-          onClick={() => {
-            this.handleRowClick(list[index])
-          }}
-          id={key}
-        >
-          <AltIconAvatar src={thumbnail || photoURL} icon={<Person />} />
+      return (
+        <div key={key}>
+          <ListItem
+            key={key}
+            onClick={() => {
+              handleRowClick(list[index])
+            }}
+            id={key}
+          >
+            <AltIconAvatar src={thumbnail || photoURL} icon={<Person />} />
 
-          <ListItemText
-            primary={displayName}
-            secondary={
-              !connections && !lastOnline
-                ? intl.formatMessage({ id: 'offline' })
-                : intl.formatMessage({ id: 'online' })
-            }
-          />
+            <ListItemText
+              primary={displayName}
+              secondary={
+                !connections && !lastOnline
+                  ? intl.formatMessage({ id: 'offline' })
+                  : intl.formatMessage({ id: 'online' })
+              }
+            />
 
-          <Toolbar>
-            {providerData &&
-              providerData.map((p, i) => {
-                return <div key={i}>{this.getProviderIcon(p)}</div>
-              })}
-          </Toolbar>
-          <OfflinePin color={connections ? 'primary' : 'disabled'} />
-        </ListItem>
-        <Divider variant="inset" />
-      </div>
-    )
-  }
-
-  render() {
-    const {
-      list,
-      theme,
-      intl,
-      setFilterIsOpen,
-      hasFilters,
-      isLoading,
-    } = this.props
-
-    const filterFields = [
-      {
-        name: 'displayName',
-        label: intl.formatMessage({ id: 'name' }),
-      },
-      {
-        name: 'creationTime',
-        type: 'date',
-        label: intl.formatMessage({ id: 'creation_time' }),
-      },
-    ]
-
-    return (
-      <Activity
-        title={intl.formatMessage({ id: 'users' })}
-        appBarContent={
-          <div style={{ display: 'flex' }}>
-            <SearchField filterName={'users'} />
-
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => {
-                setFilterIsOpen('users', true)
-              }}
-            >
-              <FilterList
-                className="material-icons"
-                color={
-                  hasFilters
-                    ? theme.palette.accent1Color
-                    : theme.palette.canvasColor
-                }
-              />
-            </IconButton>
-          </div>
-        }
-        isLoading={isLoading}
-      >
-        <div style={{ height: '100%', overflow: 'none' }}>
-          <Scrollbar>
-            <List id="test" component="div">
-              <ReactList
-                itemRenderer={this.renderItem}
-                length={list ? list.length : 0}
-                type="uniform"
-              />
-            </List>
-          </Scrollbar>
+            <Toolbar>
+              {providerData &&
+                providerData.map((p, i) => {
+                  return <div key={i}>{getProviderIcon(p)}</div>
+                })}
+            </Toolbar>
+            <OfflinePin color={connections ? 'primary' : 'disabled'} />
+          </ListItem>
+          <Divider variant="inset" />
         </div>
-        <FilterDrawer name={'users'} fields={filterFields} />
-      </Activity>
-    )
-  }
+      )
+    },
+    [getProviderIcon, handleRowClick, intl, list]
+  )
+
+  const filterFields = [
+    {
+      name: 'displayName',
+      label: intl.formatMessage({ id: 'name' }),
+    },
+    {
+      name: 'creationTime',
+      type: 'date',
+      label: intl.formatMessage({ id: 'creation_time' }),
+    },
+  ]
+
+  return (
+    <Activity
+      title={intl.formatMessage({ id: 'users' })}
+      appBarContent={
+        <div style={{ display: 'flex' }}>
+          <SearchField filterName={'users'} />
+
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={() => {
+              setFilterIsOpen('users', true)
+            }}
+          >
+            <FilterList
+              className="material-icons"
+              color={
+                hasFilters
+                  ? theme.palette.accent1Color
+                  : theme.palette.canvasColor
+              }
+            />
+          </IconButton>
+        </div>
+      }
+      isLoading={isLoading}
+    >
+      <div style={{ height: '100%', overflow: 'none' }}>
+        <Scrollbar>
+          <List id="test" component="div">
+            <ReactList
+              itemRenderer={renderItem}
+              length={list ? list.length : 0}
+              type="uniform"
+            />
+          </List>
+        </Scrollbar>
+      </div>
+      <FilterDrawer name={'users'} fields={filterFields} />
+    </Activity>
+  )
 }
 
 Users.propTypes = {
@@ -193,9 +196,7 @@ Users.propTypes = {
   }),
   isLoading: PropTypes.any,
   isSelecting: PropTypes.any,
-  list: PropTypes.shape({
-    length: PropTypes.any,
-  }),
+  list: PropTypes.array,
   setFilterIsOpen: PropTypes.func,
   theme: PropTypes.shape({
     palette: PropTypes.shape({

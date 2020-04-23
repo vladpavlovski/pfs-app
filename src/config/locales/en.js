@@ -172,6 +172,10 @@ const messages = defineMessages({
   delete_role_dialog_message: 'Are you sure?',
   notifications: 'Notifications',
   disable: 'Disable',
+  enable_notifications_message: 'Enable notifications message?',
+  enable: 'Enable',
+  no_thanks: 'No, thanks',
+  creation_time: 'Creation time',
 })
 
 export default messages
