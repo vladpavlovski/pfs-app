@@ -3,66 +3,64 @@ import Activity from '../../containers/Activity'
 import ChatsList from '../../containers/Chat/ChatsList'
 import Input from '../../containers/Chat/Input'
 import Messages from '../../containers/Chat/Messages'
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { injectIntl } from 'react-intl'
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth'
 
-export class Chats extends Component {
-  render() {
-    const { intl, match, auth, width, title, history } = this.props
+export const Chats = props => {
+  const { intl, match, auth, width, title, history } = props
 
-    const uid = match.params.uid
+  const uid = useMemo(() => match.params.uid, [match.params.uid])
 
-    return (
-      <Activity
-        onBackClick={
-          isWidthUp('sm', width)
-            ? undefined
-            : () => {
-                history.push('/chats')
-              }
-        }
-        title={title || intl.formatMessage({ id: 'chats' })}
+  return (
+    <Activity
+      onBackClick={
+        isWidthUp('sm', width)
+          ? undefined
+          : () => {
+              history.push('/chats')
+            }
+      }
+      title={title || intl.formatMessage({ id: 'chats' })}
+    >
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          alignItems: 'stretch',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+        }}
       >
+        {isWidthUp('sm', width) && <ChatsList {...props} />}
+
         <div
           style={{
-            height: '100%',
             width: '100%',
-            alignItems: 'stretch',
             display: 'flex',
-            justifyContent: 'flex-start',
-            flexDirection: 'row',
+            flexDirection: 'column',
+            marginLeft: 0,
+            flexGrow: 1,
           }}
         >
-          {isWidthUp('sm', width) && <ChatsList {...this.props} />}
-
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              marginLeft: 0,
-              flexGrow: 1,
-            }}
-          >
-            <Messages
-              uid={uid}
-              path={`user_chat_messages/${auth.uid}/${uid}`}
-              receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
-              {...this.props}
-            />
-            <Input
-              path={`user_chat_messages/${auth.uid}/${uid}`}
-              receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
-              {...this.props}
-            />
-          </div>
+          <Messages
+            uid={uid}
+            path={`user_chat_messages/${auth.uid}/${uid}`}
+            receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
+            {...props}
+          />
+          <Input
+            path={`user_chat_messages/${auth.uid}/${uid}`}
+            receiverPath={`user_chat_messages/${uid}/${auth.uid}`}
+            {...props}
+          />
         </div>
-      </Activity>
-    )
-  }
+      </div>
+    </Activity>
+  )
 }
 
 Chats.propTypes = {

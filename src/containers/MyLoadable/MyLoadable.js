@@ -24,9 +24,9 @@ export default function makeLoadable(opts, preloadComponents) {
 
       return (
         <FirebaseProvider firebaseApp={firebaseApp} context={ReactReduxContext}>
-          <React.Fragment>
+          <>
             <Component {...props} />
-          </React.Fragment>
+          </>
         </FirebaseProvider>
       )
     },

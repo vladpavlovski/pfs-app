@@ -48,7 +48,7 @@ const ResponsiveMenu = ({
   }
 
   return (
-    <React.Fragment>
+    <>
       <div
         className={classes.sectionDesktop}
         style={{ color: transparent ? contrastColor : undefined }}
@@ -125,7 +125,7 @@ const ResponsiveMenu = ({
           )}
         </List>
       </Drawer>
-    </React.Fragment>
+    </>
   )
 }
 

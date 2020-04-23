@@ -31,12 +31,12 @@ const App = ({ appConfig }) => {
           <Switch>
             {LandingPage && (
               <Route path="/" exact>
-                <React.Fragment>
+                <>
                   <LandingPage />
                   {configs.analyticsProps && (
                     <Analytics {...configs.analyticsProps} />
                   )}
-                </React.Fragment>
+                </>
               </Route>
             )}
             <Switch>

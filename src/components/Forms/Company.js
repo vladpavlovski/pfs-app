@@ -19,6 +19,7 @@ const FormComponent = props => {
     setDialogIsOpen,
     dialogs,
     match,
+    change,
   } = props
 
   const uid = useMemo(() => match.params.uid, [match])
@@ -42,7 +43,7 @@ const FormComponent = props => {
           name="photoURL"
           disabled={!initialized}
           uid={uid}
-          change={this.props.change}
+          change={change}
           initialized={initialized}
           icon={<Business fontSize="large" />}
           intl={intl}
@@ -94,8 +95,9 @@ const FormComponent = props => {
         <ImageCropDialog
           path={`companies/${uid}`}
           fileName={'photoURL'}
-          onUploadSuccess={s => {
-            this.handlePhotoUploadSuccess(s)
+          onUploadSuccess={() => {
+            // TODO: find this function parameter s
+            // handlePhotoUploadSuccess(s)
           }}
           open={dialogs.new_company_photo !== undefined}
           src={dialogs.new_company_photo}

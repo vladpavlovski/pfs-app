@@ -32,11 +32,12 @@ export default functions.auth.user().onDelete((userMetadata, context) => {
   let promises = []
 
   const mailOptions = {
-    from: `"Tarik Huber" <${gmailEmail}>`,
+    from: `"Vlad Pavlovski" <${gmailEmail}>`,
     to: email,
     subject: `Bye!`,
-    text: `Hey ${displayName ||
-      ''}!, We confirm that we have deleted your React Most Wanted account.`,
+    text: `Hey ${
+      displayName || ''
+    }!, We confirm that we have deleted your Prague Football Society account.`,
   }
 
   const sendEmail = mailTransport.sendMail(mailOptions).then(() => {
@@ -44,18 +45,12 @@ export default functions.auth.user().onDelete((userMetadata, context) => {
     return null
   })
 
-  const deleteUser = admin
-    .database()
-    .ref(`/users/${uid}`)
-    .set(null)
+  const deleteUser = admin.database().ref(`/users/${uid}`).set(null)
   const deleteTokens = admin
     .database()
     .ref(`/notification_tokens/${uid}`)
     .set(null)
-  const deleteChats = admin
-    .database()
-    .ref(`/users_chats/${uid}`)
-    .set(null)
+  const deleteChats = admin.database().ref(`/users_chats/${uid}`).set(null)
 
   const usersCount = admin
     .database()

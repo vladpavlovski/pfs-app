@@ -15,7 +15,7 @@ import { bindActionCreators } from 'redux'
 import { createBrowserHistory } from 'history'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { initializeMessaging } from '../../utils/messaging'
-import { saveAuthorisation } from '../../utils/auth'
+import { saveAuthorization } from '../../utils/auth'
 import { setPersistentValue } from '../../store/persistentValues/actions'
 import { useSelector, shallowEqual, useDispatch } from 'react-redux'
 import { withA2HS } from 'a2hs'
@@ -72,14 +72,14 @@ const Root = props => {
   let showInstallPrompt =
     auth.isAuthorised && isAppInstallable && !isAppInstalled
 
-  const handleInstallPrompt = () => {
+  const handleInstallPrompt = useCallback(() => {
     if (!installPromptShowed && showInstallPrompt) {
       installPromptShowed = true
       deferredPrompt.prompt()
     }
-  }
+  }, [deferredPrompt, showInstallPrompt])
 
-  const handlePresence = (user, firebaseApp) => {
+  const handlePresence = useCallback((user, firebaseApp) => {
     let myConnectionsRef = firebaseApp
       .database()
       .ref(`users/${user.uid}/connections`)
@@ -91,11 +91,11 @@ const Root = props => {
 
     let con = myConnectionsRef.push(true)
     con.onDisconnect().remove()
-  }
+  }, [])
 
   const onAuthStateChanged = useCallback(
     (user, firebaseApp) => {
-      saveAuthorisation(user)
+      saveAuthorization(user)
       clearInitialization()
 
       if (user) {
@@ -166,6 +166,7 @@ const Root = props => {
       }
     },
     [
+      handlePresence,
       actions,
       appConfig,
       clearInitialization,
@@ -201,7 +202,7 @@ const Root = props => {
       <AppConfigProvider appConfig={appConfig}>
         <MuiPickersUtilsProvider utils={Utils}>
           <ThemeProvider theme={theme}>
-            <React.Fragment>
+            <>
               <CssBaseline />
               <IntlProvider locale={locale} key={locale} messages={messages}>
                 <Router history={history}>
@@ -210,7 +211,7 @@ const Root = props => {
                   </Switch>
                 </Router>
               </IntlProvider>
-            </React.Fragment>
+            </>
           </ThemeProvider>
         </MuiPickersUtilsProvider>
       </AppConfigProvider>

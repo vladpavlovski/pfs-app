@@ -106,9 +106,7 @@ Roles.propTypes = {
     formatMessage: PropTypes.func,
   }),
   isLoading: PropTypes.any,
-  list: PropTypes.shape({
-    length: PropTypes.any,
-  }),
+  list: PropTypes.array,
   watchList: PropTypes.func,
 }
 

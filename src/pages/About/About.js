@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import FacebookIcon from '@material-ui/icons/Facebook'
-import { Activity } from 'rmw-shell'
+import Activity from '../../containers/Activity'
 import Scrollbar from '../../components/Scrollbar/Scrollbar'
 
 const About = props => {

@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 import getAppRoutes from '../../components/AppRoutes'
-// import { injectIntl } from 'react-intl'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { Switch, withRouter } from 'react-router-dom'
 
 export const Routes = ({ appConfig }) => {
-  const customRoutes = appConfig.routes ? appConfig.routes : []
+  const customRoutes = appConfig.routes || []
   const appRoutes = getAppRoutes(appConfig.firebaseLoad)
 
   return (

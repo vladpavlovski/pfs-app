@@ -127,9 +127,7 @@ ListActivity.propTypes = {
   activityProps: PropTypes.object,
   createGrant: PropTypes.any,
   disableCreate: PropTypes.bool,
-  filterFields: PropTypes.shape({
-    map: PropTypes.func,
-  }),
+  filterFields: PropTypes.array,
   handleCreateClick: PropTypes.any,
   hasFilters: PropTypes.any,
   history: PropTypes.shape({
@@ -139,9 +137,7 @@ ListActivity.propTypes = {
     formatMessage: PropTypes.func,
   }),
   isGranted: PropTypes.func,
-  list: PropTypes.shape({
-    length: PropTypes.any,
-  }),
+  list: PropTypes.array,
   name: PropTypes.any,
   path: PropTypes.any,
   reactListProps: PropTypes.object,

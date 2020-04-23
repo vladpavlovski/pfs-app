@@ -37,7 +37,7 @@ export function isAnyGranted(state, grants) {
 
 const localStorageAuthKey = 'rmw:isAuthorised'
 
-export function saveAuthorisation(user) {
+export function saveAuthorization(user) {
   if (typeof Storage !== 'undefined') {
     try {
       localStorage.setItem(localStorageAuthKey, Boolean(user))

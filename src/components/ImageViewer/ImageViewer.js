@@ -20,7 +20,7 @@ const ImageViewer = ({ src, ...rest }) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <Image src={src} onClick={handleOpen} {...rest} />
 
       <Modal
@@ -85,7 +85,7 @@ const ImageViewer = ({ src, ...rest }) => {
           </div>
         </Fade>
       </Modal>
-    </React.Fragment>
+    </>
   )
 }
 

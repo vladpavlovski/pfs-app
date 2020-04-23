@@ -104,7 +104,7 @@ export class User extends Component {
     } = this.props
 
     const uid = match.params.uid
-    let isAdmin = false
+    let isAdmin = true
 
     if (admins !== undefined) {
       for (let admin of admins) {

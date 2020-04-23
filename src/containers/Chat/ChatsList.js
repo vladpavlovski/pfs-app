@@ -268,9 +268,7 @@ ChatsList.propTypes = {
   intl: PropTypes.shape({
     formatMessage: PropTypes.func,
   }),
-  list: PropTypes.shape({
-    length: PropTypes.any,
-  }),
+  list: PropTypes.array,
   path: PropTypes.any,
   setPersistentValue: PropTypes.func,
   theme: PropTypes.shape({

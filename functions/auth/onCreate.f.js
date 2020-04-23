@@ -71,11 +71,12 @@ export default functions.auth.user().onCreate((uRecord, context) => {
 
       if (email) {
         const mailOptions = {
-          from: `"Tarik Huber" <${gmailEmail}>`,
+          from: `"Vlad Pavlovski" <${gmailEmail}>`,
           to: email,
-          subject: `Welcome to React Most Wanted!`,
-          text: `Hey ${displayName ||
-            ''}!, Welcome to React Most Wanted. I hope you will enjoy the demo application.`,
+          subject: `Welcome to Prague Football Society!`,
+          text: `Hey ${
+            displayName || ''
+          }!, Welcome to Prague Football Society. I hope you will enjoy the demo application.`,
         }
 
         promises.push(mailTransport.sendMail(mailOptions))
