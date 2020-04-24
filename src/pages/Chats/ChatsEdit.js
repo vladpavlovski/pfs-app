@@ -78,7 +78,7 @@ Chats.propTypes = {
       uid: PropTypes.any,
     }),
   }),
-  title: PropTypes.func,
+  title: PropTypes.string,
   width: PropTypes.any,
 }
 

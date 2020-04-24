@@ -88,7 +88,7 @@ export class ChatsList extends Component {
     const { theme, auth } = this.props
 
     return (
-      <div>
+      <>
         {val.isSend && auth.uid === val.authorUid && val.isReceived && (
           <DoneAll
             className="material-icons"
@@ -119,7 +119,7 @@ export class ChatsList extends Component {
         )}
         {val.unread > 0 && <b>{val.lastMessage}</b>}
         {!val.unread && val.lastMessage}
-      </div>
+      </>
     )
   }
 

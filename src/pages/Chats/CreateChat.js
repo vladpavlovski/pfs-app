@@ -6,7 +6,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReactList from 'react-list'
 import Scrollbar from '../../components/Scrollbar'
 import SearchField from '../../components/SearchField'
@@ -23,118 +23,121 @@ import { withTheme } from '@material-ui/core/styles'
 
 const path = 'users'
 
-export class Users extends Component {
-  componentDidMount() {
-    const { watchList } = this.props
+const Users = props => {
+  const {
+    watchList,
+    unwatchList,
+    auth,
+    firebaseApp,
+    history,
+    usePreview,
+    setPersistentValue,
+    users,
+    intl,
+    isLoading,
+    theme,
+  } = props
 
+  useEffect(() => {
     watchList(path)
-  }
-
-  handleRowClick = user => {
-    const {
-      auth,
-      firebaseApp,
-      history,
-      usePreview,
-      setPersistentValue,
-    } = this.props
-
-    const key = user.key
-    const userValues = user.val
-    const userChatsRef = firebaseApp
-      .database()
-      .ref(`/user_chats/${auth.uid}/${key}`)
-
-    const chatData = {
-      displayName: userValues.displayName,
-      photoURL: userValues.photoURL ? userValues.photoURL : '',
-      lastMessage: '',
+    return () => {
+      unwatchList(path)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    userChatsRef.update({ ...chatData })
+  const handleRowClick = useCallback(
+    user => {
+      const key = user.key
+      const userValues = user.val
+      const userChatsRef = firebaseApp
+        .database()
+        .ref(`/user_chats/${auth.uid}/${key}`)
 
-    if (usePreview) {
-      setPersistentValue('current_chat_uid', key)
-      history.push('/chats')
-    } else {
-      history.push(`/chats/edit/${key}`)
-    }
-  }
+      const chatData = {
+        displayName: userValues.displayName,
+        photoURL: userValues.photoURL ? userValues.photoURL : '',
+        lastMessage: '',
+      }
 
-  renderItem = (index, key) => {
-    const { users, intl, auth } = this.props
+      userChatsRef.update({ ...chatData })
 
-    const user = users[index].val
+      if (usePreview) {
+        setPersistentValue('current_chat_uid', key)
+        history.push('/chats')
+      } else {
+        history.push(`/chats/edit/${key}`)
+      }
+    },
+    [auth.uid, firebaseApp, history, setPersistentValue, usePreview]
+  )
 
-    //We hide ourselfe to not create a chat with ourself
-    if (user.uid === auth.uid) {
-      return <div key={key} />
-    }
+  const renderItem = useCallback(
+    (index, key) => {
+      const user = users[index].val
 
-    return (
-      <div key={key}>
-        <ListItem
-          key={key}
-          onClick={() => {
-            this.handleRowClick(users[index])
-          }}
-          id={key}
-        >
-          <AltIconAvatar src={user.photoURL} icon={<Person />} />
+      //We hide ourselfe to not create a chat with ourself
+      if (user.uid === auth.uid) {
+        return <div key={key} />
+      }
 
-          <ListItemText
-            primary={user.displayName}
-            secondary={
-              !user.connections && !user.lastOnline
-                ? intl.formatMessage({ id: 'offline' })
-                : intl.formatMessage({ id: 'online' })
-            }
-          />
-        </ListItem>
-        <Divider variant="inset" />
-      </div>
-    )
-  }
+      return (
+        <div key={key}>
+          <ListItem
+            key={key}
+            onClick={() => {
+              handleRowClick(users[index])
+            }}
+            id={key}
+          >
+            <AltIconAvatar src={user.photoURL} icon={<Person />} />
 
-  render() {
-    const { intl, isLoading, theme, users, history } = this.props
-
-    return (
-      <Activity
-        title={intl.formatMessage({ id: 'users' })}
-        onBackClick={() => history.back()}
-        appBarContent={
-          <div style={{ display: 'flex' }}>
-            <SearchField filterName={'select_user'} />
-          </div>
-        }
-        isLoading={isLoading}
-      >
-        <div
-          style={{
-            height: '100%',
-            overflow: 'none',
-            backgroundColor: theme.palette.convasColor,
-          }}
-        >
-          <Scrollbar>
-            <List
-              id="test"
-              ref={field => {
-                this.users = field
-              }}
-            >
-              <ReactList
-                itemRenderer={this.renderItem}
-                length={users ? users.length : 0}
-                type="simple"
-              />
-            </List>
-          </Scrollbar>
+            <ListItemText
+              primary={user.displayName}
+              secondary={
+                !user.connections && !user.lastOnline
+                  ? intl.formatMessage({ id: 'offline' })
+                  : intl.formatMessage({ id: 'online' })
+              }
+            />
+          </ListItem>
+          <Divider variant="inset" />
         </div>
-      </Activity>
-    )
-  }
+      )
+    },
+    [auth.uid, handleRowClick, intl, users]
+  )
+
+  return (
+    <Activity
+      title={intl.formatMessage({ id: 'users' })}
+      onBackClick={() => history.back()}
+      appBarContent={
+        <div style={{ display: 'flex' }}>
+          <SearchField filterName={'select_user'} />
+        </div>
+      }
+      isLoading={isLoading}
+    >
+      <div
+        style={{
+          height: '100%',
+          overflow: 'none',
+          backgroundColor: theme.palette.convasColor,
+        }}
+      >
+        <Scrollbar>
+          <List id="test">
+            <ReactList
+              itemRenderer={renderItem}
+              length={users ? users.length : 0}
+              type="simple"
+            />
+          </List>
+        </Scrollbar>
+      </div>
+    </Activity>
+  )
 }
 
 Users.propTypes = {
@@ -158,10 +161,9 @@ Users.propTypes = {
       convasColor: PropTypes.any,
     }),
   }),
+  unwatchList: PropTypes.func,
   usePreview: PropTypes.any,
-  users: PropTypes.shape({
-    length: PropTypes.any,
-  }),
+  users: PropTypes.array,
   watchList: PropTypes.func,
 }
 

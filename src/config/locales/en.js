@@ -176,6 +176,8 @@ const messages = defineMessages({
   enable: 'Enable',
   no_thanks: 'No, thanks',
   creation_time: 'Creation time',
+  mark_chat_as_unread: 'Mark chat as unread',
+  delete_chat: 'Delete chat',
 })
 
 export default messages

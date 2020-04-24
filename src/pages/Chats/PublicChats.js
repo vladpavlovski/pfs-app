@@ -2,51 +2,49 @@ import PropTypes from 'prop-types'
 import Activity from '../../containers/Activity'
 import Input from '../../containers/Chat/Input'
 import Messages from '../../containers/Chat/Messages'
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 
-export class Chats extends Component {
-  render() {
-    const { intl } = this.props
+const Chats = props => {
+  const { intl } = props
 
-    return (
-      <Activity title={intl.formatMessage({ id: 'chats' })}>
+  return (
+    <Activity title={intl.formatMessage({ id: 'chats' })}>
+      <div
+        style={{
+          height: '100%',
+          width: '100%',
+          alignItems: 'stretch',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          flexDirection: 'row',
+        }}
+      >
         <div
           style={{
-            height: '100%',
             width: '100%',
-            alignItems: 'stretch',
             display: 'flex',
-            justifyContent: 'flex-start',
-            flexDirection: 'row',
+            flexDirection: 'column',
+            marginLeft: 0,
+            flexGrow: 1,
           }}
         >
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              marginLeft: 0,
-              flexGrow: 1,
-            }}
-          >
-            <Messages
-              path={'public_chats'}
-              receiverPath={'public_chats'}
-              {...this.props}
-            />
-            <Input
-              path={'public_chats'}
-              receiverPath={'public_chats'}
-              {...this.props}
-            />
-          </div>
+          <Messages
+            path={'public_chats'}
+            receiverPath={'public_chats'}
+            {...props}
+          />
+          <Input
+            path={'public_chats'}
+            receiverPath={'public_chats'}
+            {...props}
+          />
         </div>
-      </Activity>
-    )
-  }
+      </div>
+    </Activity>
+  )
 }
 
 Chats.propTypes = {
