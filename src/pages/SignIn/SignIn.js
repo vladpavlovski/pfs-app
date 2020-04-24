@@ -2,18 +2,18 @@ import * as firebaseui from 'firebaseui'
 import Activity from '../../containers/Activity'
 import AuthUI from '../../containers/AuthUI/AuthUI'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useMemo } from 'react'
 import { injectIntl } from 'react-intl'
 import { withAppConfigs } from '../../contexts/AppConfigProvider'
 import { withFirebase } from 'firekit-provider'
 
-export class SignIn extends Component {
-  render() {
-    const { intl, firebaseApp, appConfig } = this.props
+const SignIn = props => {
+  const { intl, firebaseApp, appConfig } = props
 
-    const { firebase_auth_props = {} } = appConfig || {}
+  const { firebase_auth_props = {} } = appConfig || {}
 
-    const uiConfig = {
+  const uiConfig = useMemo(
+    () => ({
       signInSuccessUrl: '/',
       signInFlow: 'popup',
       callbacks: {
@@ -27,14 +27,15 @@ export class SignIn extends Component {
       signInOptions: appConfig.firebase_providers,
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       ...firebase_auth_props,
-    }
+    }),
+    [appConfig.firebase_providers, firebase_auth_props]
+  )
 
-    return (
-      <Activity title={intl.formatMessage({ id: 'sign_in' })}>
-        <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
-      </Activity>
-    )
-  }
+  return (
+    <Activity title={intl.formatMessage({ id: 'sign_in' })}>
+      <AuthUI firebaseApp={firebaseApp} uiConfig={uiConfig} />
+    </Activity>
+  )
 }
 
 SignIn.propTypes = {
