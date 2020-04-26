@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback } from 'react'
 import Slide from '@material-ui/core/Slide'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 import { compose } from 'redux'
@@ -14,40 +14,34 @@ import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 import getSimpleValue from '../../store/simpleValues/selectors'
 
-// eslint-disable-next-line react/display-name
-const Transition = React.forwardRef((props, ref) => (
-  <Slide direction="up" {...props} ref={ref} />
-))
+const Transition = props => <Slide direction="up" {...props} />
 
-class QuestionDialog extends Component {
-  handleClose = () => {
-    const { name, setSimpleValue, onCloseAction } = this.props
+const QuestionDialog = props => {
+  const {
+    name,
+    setSimpleValue,
+    onCloseAction,
+    intl,
+    isDialogOpen,
+    handleAction,
+    fullScreen,
+    title = '',
+    message = '',
+    action = '',
+  } = props
+  const handleClose = useCallback(() => {
     if (onCloseAction) {
       onCloseAction()
     }
     setSimpleValue(name, undefined)
-  }
+  }, [name, onCloseAction, setSimpleValue])
 
-  render() {
-    const {
-      intl,
-      isDialogOpen,
-      handleAction,
-      fullScreen,
-      title = '',
-      message = '',
-      action = '',
-    } = this.props
-
-    if (!isDialogOpen) {
-      return null
-    }
-
-    return (
+  return (
+    isDialogOpen && (
       <Dialog
         fullScreen={fullScreen}
         open={isDialogOpen}
-        onClose={this.handleClose}
+        onClose={handleClose}
         TransitionComponent={Transition}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -59,12 +53,12 @@ class QuestionDialog extends Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             {intl.formatMessage({ id: 'cancel' })}
           </Button>
           <Button
             onClick={() => {
-              handleAction(this.handleClose)
+              handleAction(handleClose)
             }}
             color="secondary"
           >
@@ -73,7 +67,7 @@ class QuestionDialog extends Component {
         </DialogActions>
       </Dialog>
     )
-  }
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {

@@ -178,6 +178,11 @@ const messages = defineMessages({
   creation_time: 'Creation time',
   mark_chat_as_unread: 'Mark chat as unread',
   delete_chat: 'Delete chat',
+  email_notifications: 'Email notifications',
+  disable_notifications_dialog_title: 'Disable notifications',
+  disable_notifications_dialog_message:
+    'Are you sure want to disable notifications?',
+  drop_or_select_file_label: 'Drop or select file',
 })
 
 export default messages

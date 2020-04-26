@@ -123,14 +123,14 @@ const getMenuItems = props => {
       leftIcon: <InfoOutlined />,
     },
     {
-      visible: isAuthorised, // In prod: isGranted('administration'),
+      visible: isGranted('administration'), // isAuthorised, // In prod: isGranted('administration'),
       primaryTogglesNestedList: true,
       primaryText: intl.formatMessage({ id: 'administration' }),
       leftIcon: <Security />,
       nestedItems: [
         {
           value: '/users',
-          visible: isAuthorised, // In prod: isGranted('read_users'),
+          visible: isGranted('read_users'), // isAuthorised, // In prod: isGranted('read_users'),
           primaryText: intl.formatMessage({ id: 'users' }),
           leftIcon: <GroupIcon />,
         },

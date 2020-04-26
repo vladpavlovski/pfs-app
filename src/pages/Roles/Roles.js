@@ -75,11 +75,7 @@ const Roles = props => {
     <Activity isLoading={isLoading} title={intl.formatMessage({ id: 'roles' })}>
       <div style={{ height: '100%' }}>
         <Scrollbar>
-          <List
-            ref={field => {
-              this.list = field
-            }}
-          >
+          <List>
             <ReactList
               itemRenderer={renderItem}
               length={list.length}

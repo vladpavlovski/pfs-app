@@ -62,19 +62,6 @@ const styles = theme => ({
 })
 
 const MyAccount = props => {
-  // state = {
-  //   values: {
-  //     displayName: '',
-  //     email: '',
-  //     photoURL: '',
-  //     password: '',
-  //     newPassword: '',
-  //     confirmPassword: '',
-  //   },
-  //   errors: {},
-  //   isPhotoDialogOpen: false,
-  // }
-
   const {
     firebaseApp,
     auth,
@@ -91,6 +78,7 @@ const MyAccount = props => {
     watchList,
     watchPath,
   } = props
+  console.log('MYAcc: ', auth)
 
   const [errors, setErrors] = useState({})
   const [isPhotoDialogOpen, setIsPhotoDialogOpen] = useState(false)
@@ -98,9 +86,9 @@ const MyAccount = props => {
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [values, setValues] = useState({
-    displayName: '',
-    email: '',
-    photoURL: '',
+    displayName: auth.displayName,
+    email: auth.email,
+    photoURL: auth.photoURL,
     password: '',
     newPassword: '',
     confirmPassword: '',
@@ -505,13 +493,8 @@ const MyAccount = props => {
   ])
 
   useEffect(() => {
-    const { displayName, email, photoURL } = auth
-
     watchList(`notification_tokens/${auth.uid}`)
     watchPath(`email_notifications/${auth.uid}`)
-    updateValue('displayName', displayName)
-    updateValue('email', email)
-    updateValue('photoURL', photoURL)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -612,15 +595,14 @@ const MyAccount = props => {
                 alignItems: 'center',
               }}
             >
-              {values.photoURL && (
+              {values.photoURL ? (
                 <Avatar
-                  alt={auth.displayName}
                   src={values.photoURL}
                   className={classNames(classes.avatar, classes.bigAvatar)}
                 />
-              )}
-              {!values.photoURL && (
+              ) : (
                 <Avatar
+                  alt={values.displayName}
                   className={classNames(classes.avatar, classes.bigAvatar)}
                 >
                   <Person style={{ fontSize: 60 }} />{' '}
@@ -630,7 +612,7 @@ const MyAccount = props => {
               <IconButton
                 color="primary"
                 onClick={() => {
-                  this.setState({ isPhotoDialogOpen: true })
+                  setIsPhotoDialogOpen(true)
                 }}
               >
                 <PhotoCamera />
@@ -736,7 +718,6 @@ const MyAccount = props => {
                             ? undefined
                             : handleEmailVerificationsSend
                         }
-                        //onMouseDown={this.handleMouseDownPassword}
                       >
                         {auth.emailVerified && <VerifiedUser color="primary" />}
                         {!auth.emailVerified && <Error color="secondary" />}
@@ -905,20 +886,14 @@ const MyAccount = props => {
 
 MyAccount.propTypes = {
   appConfig: PropTypes.shape({
-    firebase_providers: PropTypes.shape({
-      map: PropTypes.func,
-    }),
+    firebase_providers: PropTypes.array,
   }),
   auth: PropTypes.shape({
     displayName: PropTypes.any,
-    email: PropTypes.shape({
-      localeCompare: PropTypes.func,
-    }),
+    email: PropTypes.string,
     emailVerified: PropTypes.bool,
     photoURL: PropTypes.any,
-    providerData: PropTypes.shape({
-      find: PropTypes.func,
-    }),
+    providerData: PropTypes.array,
     uid: PropTypes.any,
   }),
   authError: PropTypes.func,
@@ -929,7 +904,7 @@ MyAccount.propTypes = {
     margin: PropTypes.any,
     textField: PropTypes.any,
   }),
-  emailNotifications: PropTypes.bool,
+  emailNotifications: PropTypes.any,
   firebaseApp: PropTypes.shape({
     auth: PropTypes.func,
     database: PropTypes.func,
@@ -938,9 +913,7 @@ MyAccount.propTypes = {
     formatMessage: PropTypes.func,
   }),
   new_user_photo: PropTypes.any,
-  notificationTokens: PropTypes.shape({
-    length: PropTypes.number,
-  }),
+  notificationTokens: PropTypes.array,
   setDialogIsOpen: PropTypes.func,
   setSimpleValue: PropTypes.func,
   watchList: PropTypes.func,

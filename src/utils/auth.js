@@ -2,13 +2,13 @@ export default function isGranted(state, grant) {
   const { auth, lists, paths } = state
 
   const userGrants = lists[`user_grants/${auth.uid}`]
-  const isAdmin = paths[`admins/${auth.uid}`]
+  const adminPath = paths[`admins/${auth.uid}`]
 
   if (auth.isAuthorised !== true) {
     return false
   }
 
-  if (isAdmin === true) {
+  if (adminPath && adminPath.isAdmin === true) {
     return true
   }
 

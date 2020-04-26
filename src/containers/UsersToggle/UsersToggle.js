@@ -6,7 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Person from '@material-ui/icons/Person'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useMemo, useEffect, useCallback } from 'react'
 import ReactList from 'react-list'
 import Switch from '@material-ui/core/Switch'
 import {
@@ -21,61 +21,70 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
-class UsersToggle extends Component {
-  componentDidMount() {
-    const { watchList, path, setSearch } = this.props
+const UsersToggle = props => {
+  const {
+    watchList,
+    path,
+    setSearch,
+    getValue,
+    onChange,
+    onClick,
+    intl,
+    list,
+  } = props
 
+  useEffect(() => {
     setSearch('users_toggle', '')
     watchList(path)
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-  renderGrantItem = (list, i) => {
-    const { getValue, onChange, onClick } = this.props
+  const renderGrantItem = useCallback(
+    (list, i) => {
+      const userUid = list[i].key
+      const user = list[i].val
+      const checked = getValue(userUid)
 
-    const userUid = list[i].key
-    const user = list[i].val
-    const checked = getValue(userUid)
-
-    return (
-      <div key={i}>
-        <ListItem
-          key={userUid}
-          id={userUid}
-          onClick={onClick ? () => onClick(userUid, user) : undefined}
-        >
-          <AltIconAvatar
-            alt="person"
-            src={user.thumbnail || user.photoURL}
-            icon={<Person />}
-          />
-          <ListItemText
-            primary={
-              <div style={{ fontFamily: 'Roboto, sans-serif' }}>
-                {user.displayName}
-              </div>
-            }
-            secondaryText={
-              <div style={{ fontFamily: 'Roboto, sans-serif' }}>
-                {user.email}
-              </div>
-            }
-          />
-          <ListItemSecondaryAction>
-            <Switch
-              checked={checked === true}
-              onChange={(e, newVal) => onChange(userUid, newVal)}
+      return (
+        <div key={i}>
+          <ListItem
+            key={userUid}
+            id={userUid}
+            onClick={onClick ? () => onClick(userUid, user) : undefined}
+          >
+            <AltIconAvatar
+              alt="person"
+              src={user.thumbnail || user.photoURL}
+              icon={<Person />}
             />
-          </ListItemSecondaryAction>
-        </ListItem>
-        <Divider variant="inset" />
-      </div>
-    )
-  }
+            <ListItemText
+              primary={
+                <div style={{ fontFamily: 'Roboto, sans-serif' }}>
+                  {user.displayName}
+                </div>
+              }
+              secondaryText={
+                <div style={{ fontFamily: 'Roboto, sans-serif' }}>
+                  {user.email}
+                </div>
+              }
+            />
+            <ListItemSecondaryAction>
+              <Switch
+                checked={checked === true}
+                onChange={(e, newVal) => onChange(userUid, newVal)}
+              />
+            </ListItemSecondaryAction>
+          </ListItem>
+          <Divider variant="inset" />
+        </div>
+      )
+    },
+    [getValue, onChange, onClick]
+  )
 
-  render() {
-    const { intl, list } = this.props
-
-    const filterFields = [
+  const filterFields = useMemo(
+    () => [
       {
         name: 'displayName',
         label: intl.formatMessage({ id: 'name_label' }),
@@ -84,30 +93,26 @@ class UsersToggle extends Component {
         name: 'value',
         label: intl.formatMessage({ id: 'value_label' }),
       },
-    ]
+    ],
+    [intl]
+  )
 
-    return (
-      <div>
-        <List
-          style={{ height: '100%' }}
-          ref={field => {
-            this.list = field
-          }}
-        >
-          <ReactList
-            itemRenderer={(i, k) => this.renderGrantItem(list, i, k)}
-            length={list ? list.length : 0}
-            type="uniform"
-          />
-        </List>
-        <FilterDrawer
-          name={'users_toggle'}
-          fields={filterFields}
-          formatMessage={intl.formatMessage}
+  return (
+    <div>
+      <List style={{ height: '100%' }}>
+        <ReactList
+          itemRenderer={(i, k) => renderGrantItem(list, i, k)}
+          length={list ? list.length : 0}
+          type="uniform"
         />
-      </div>
-    )
-  }
+      </List>
+      <FilterDrawer
+        name={'users_toggle'}
+        fields={filterFields}
+        formatMessage={intl.formatMessage}
+      />
+    </div>
+  )
 }
 
 UsersToggle.propTypes = {

@@ -5,7 +5,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback } from 'react'
 import Slide from '@material-ui/core/Slide'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 import { compose } from 'redux'
@@ -13,35 +13,29 @@ import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
 import { setSimpleValue } from '../../store/simpleValues/actions'
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />
-}
+const Transition = props => <Slide direction="up" {...props} />
 
-class DeleteDialog extends Component {
-  handleClose = () => {
-    const { deleteKey, setSimpleValue } = this.props
+const DeleteDialog = props => {
+  const {
+    deleteKey,
+    setSimpleValue,
+    intl,
+    isDialogOpen,
+    handleDelete,
+    name,
+    fullScreen,
+    deleteUid,
+  } = props
+  const handleClose = useCallback(() => {
     setSimpleValue(deleteKey, undefined)
-  }
+  }, [deleteKey, setSimpleValue])
 
-  render() {
-    const {
-      intl,
-      isDialogOpen,
-      handleDelete,
-      name,
-      fullScreen,
-      deleteUid,
-    } = this.props
-
-    if (!isDialogOpen) {
-      return null
-    }
-
-    return (
+  return (
+    isDialogOpen && (
       <Dialog
         fullScreen={fullScreen}
         open={isDialogOpen}
-        onClose={this.handleClose}
+        onClose={handleClose}
         TransitionComponent={Transition}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -55,12 +49,12 @@ class DeleteDialog extends Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
+          <Button onClick={handleClose} color="primary">
             {intl.formatMessage({ id: 'cancel' })}
           </Button>
           <Button
             onClick={() => {
-              handleDelete(this.handleClose, deleteUid)
+              handleDelete(handleClose, deleteUid)
             }}
             color="secondary"
           >
@@ -69,7 +63,7 @@ class DeleteDialog extends Component {
         </DialogActions>
       </Dialog>
     )
-  }
+  )
 }
 
 const mapStateToProps = (state, ownProps) => {

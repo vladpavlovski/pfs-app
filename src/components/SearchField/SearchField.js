@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Search from '@material-ui/icons/Search'
 import { injectIntl } from 'react-intl'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -97,17 +97,20 @@ const SearchField = ({
   let rootClass = classes.root
   let inputClass = classes.input
 
-  const onChange = v => {
-    if (timeout) {
-      clearTimeout(timeout)
-    }
+  const onChange = useCallback(
+    v => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
 
-    setValue(v)
+      setValue(v)
 
-    timeout = setTimeout(() => {
-      setSearch(filterName, v)
-    }, deferTime)
-  }
+      timeout = setTimeout(() => {
+        setSearch(filterName, v)
+      }, deferTime)
+    },
+    [deferTime, filterName, setSearch]
+  )
 
   if (hasInput || alwaysOpen) {
     rootClass = classes.rootOpen
@@ -123,11 +126,6 @@ const SearchField = ({
         autoComplete="off"
         id="docsearch-input"
         value={value}
-        ref={node => {
-          if (node && searchValue && searchValue !== '') {
-            node.focus()
-          }
-        }}
         className={classNames(inputClass)}
         onChange={e => onChange(e.target.value)}
       />

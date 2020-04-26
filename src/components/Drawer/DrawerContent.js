@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import Scrollbar from '../../components/Scrollbar'
 import SelectableMenuList from '../../containers/SelectableMenuList'
@@ -58,7 +58,7 @@ export const DrawerContent = props => {
     })
   }, [messaging.token, props])
 
-  const isAuthMenu = !!dialogs.auth_menu
+  const isAuthMenu = useMemo(() => !!dialogs.auth_menu, [dialogs.auth_menu])
 
   return (
     <div
