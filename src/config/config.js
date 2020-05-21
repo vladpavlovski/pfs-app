@@ -1,12 +1,12 @@
 import React from 'react'
 import Loadable from 'react-loadable'
 import getMenuItems from './menuItems'
-import LoadingComponent from 'rmw-shell/lib/components/LoadingComponent'
+import LoadingComponent from '../components/LoadingComponent'
 import locales from './locales'
 import routes from './routes'
 import themes from './themes'
 import grants from './grants'
-import parseLanguages from 'rmw-shell/lib/utils/localeTools'
+import parseLanguages from '../utils/localeTools'
 
 const Loading = () => <LoadingComponent />
 
@@ -17,16 +17,6 @@ const LPAsync = Loadable({
 
 const config = {
   firebase_config: {
-    apiKey: 'AIzaSyCYDhXr_d_T1lF-CpzdRaB-yfhNT5tShPQ',
-    authDomain: 'pfs-app-prod.firebaseapp.com',
-    databaseURL: 'https://pfs-app-prod.firebaseio.com',
-    projectId: 'pfs-app-prod',
-    storageBucket: 'pfs-app-prod.appspot.com',
-    messagingSenderId: '442919138760',
-    appId: '1:442919138760:web:e67396b0f3b3561d1efcfd',
-    measurementId: 'G-6VCSLDBPCQ',
-  },
-  firebase_config_devp: {
     apiKey: 'AIzaSyCYDhXr_d_T1lF-CpzdRaB-yfhNT5tShPQ',
     authDomain: 'pfs-app-prod.firebaseapp.com',
     databaseURL: 'https://pfs-app-prod.firebaseio.com',

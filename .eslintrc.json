@@ -11,8 +11,7 @@
     "prettier/react",
     "plugin:react/recommended",
     "plugin:jest/recommended",
-    "plugin:jest/style",
-    "plugin:promise/recommended"
+    "plugin:jest/style"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -23,7 +22,10 @@
     "sourceType": "module"
   },
   "plugins": ["react", "react-hooks", "jest"],
-  "rules": {},
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  },
   "settings": {
     "react": {
       "createClass": "createReactClass",

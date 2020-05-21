@@ -1,2 +1,4 @@
 src/serviceWorker.js
 build
+functions/node_modules
+utils/serviceWorker.js

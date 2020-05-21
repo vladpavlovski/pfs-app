@@ -1,13 +1,13 @@
-import AvatarImageField from 'rmw-shell/lib/components/ReduxFormFields/AvatarImageField'
+import AvatarImageField from '../ReduxFormFields/AvatarImageField'
 import Business from '@material-ui/icons/Business'
 import PropTypes from 'prop-types'
 import React, { useMemo } from 'react'
-import TextField from 'rmw-shell/lib/components/ReduxFormFields/TextField'
+import TextField from '../ReduxFormFields/TextField'
 import { Field, reduxForm, formValueSelector } from 'redux-form'
-import { ImageCropDialog } from 'rmw-shell/lib/containers/ImageCropDialog'
+import { ImageCropDialog } from '../../containers/ImageCropDialog'
 import { connect } from 'react-redux'
 import { injectIntl } from 'react-intl'
-import { setDialogIsOpen } from 'rmw-shell/lib/store/dialogs/actions'
+import { setDialogIsOpen } from '../../store/dialogs/actions'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
@@ -19,6 +19,7 @@ const FormComponent = props => {
     setDialogIsOpen,
     dialogs,
     match,
+    change,
   } = props
 
   const uid = useMemo(() => match.params.uid, [match])
@@ -42,7 +43,7 @@ const FormComponent = props => {
           name="photoURL"
           disabled={!initialized}
           uid={uid}
-          change={this.props.change}
+          change={change}
           initialized={initialized}
           icon={<Business fontSize="large" />}
           intl={intl}
@@ -94,8 +95,9 @@ const FormComponent = props => {
         <ImageCropDialog
           path={`companies/${uid}`}
           fileName={'photoURL'}
-          onUploadSuccess={s => {
-            this.handlePhotoUploadSuccess(s)
+          onUploadSuccess={() => {
+            // TODO: find this function parameter s
+            // handlePhotoUploadSuccess(s)
           }}
           open={dialogs.new_company_photo !== undefined}
           src={dialogs.new_company_photo}

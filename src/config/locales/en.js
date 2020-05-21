@@ -1,7 +1,7 @@
 import { defineMessages } from 'react-intl'
 
 const messages = defineMessages({
-  app_name: 'React Most Wanted',
+  app_name: 'Prague Football Society',
   dashboard: 'Dashboard',
   about: 'About',
   page_not_found_demo: 'Page not found demo',
@@ -158,6 +158,31 @@ const messages = defineMessages({
   workers_label: 'Workers',
   worth_hint: 'Enter worth',
   worth_label: 'Worth',
+  default: 'Default',
+  red: 'Red',
+  green: 'Green',
+  fr: 'French',
+  night_mode: 'Night mode',
+  day_mode: 'Day mode',
+  install: 'Install',
+  operator_contains_label: 'Operator contains label',
+  error_required_field: 'Field is required',
+  edit_role: 'Edit role',
+  delete_role_dialog_title: 'Delete role?',
+  delete_role_dialog_message: 'Are you sure?',
+  notifications: 'Notifications',
+  disable: 'Disable',
+  enable_notifications_message: 'Enable notifications message?',
+  enable: 'Enable',
+  no_thanks: 'No, thanks',
+  creation_time: 'Creation time',
+  mark_chat_as_unread: 'Mark chat as unread',
+  delete_chat: 'Delete chat',
+  email_notifications: 'Email notifications',
+  disable_notifications_dialog_title: 'Disable notifications',
+  disable_notifications_dialog_message:
+    'Are you sure want to disable notifications?',
+  drop_or_select_file_label: 'Drop or select file',
 })
 
 export default messages

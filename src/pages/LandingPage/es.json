@@ -1,6 +1,6 @@
 {
   "main.intro": "React Starter-Kit with all Most Wanted features ",
-  "main.title": " REACT MOST WANTED ",
+  "main.title": " Prague Football Society ",
   "main.start": "GET STARTED",
   "main.instal": "Installation",
   "main.run": "Just run this script to start:",
@@ -8,6 +8,6 @@
   "main.usage": "Usage",
   "main.set": "Set your configuration to the App component:",
   "main.what": "What is this?",
-  "main.this": "This is a OPEN SOURCE demo application that demonstartes the usage of the rmw-shell library with react, Material-UI and firebase.",
-  "main.demo": "This demo has no purpose to do something as an app. It is here just to show how everthing works together."
+  "main.this": "This is a OPEN SOURCE demo application that demonstrates the usage of the rmw-shell library with react, Material-UI and firebase.",
+  "main.demo": "This demo has no purpose to do something as an app. It is here just to show how everything works together."
 }
