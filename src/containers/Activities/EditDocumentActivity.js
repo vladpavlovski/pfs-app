@@ -5,7 +5,7 @@ import Save from '@material-ui/icons/Save'
 import Delete from '@material-ui/icons/Delete'
 import IconButton from '@material-ui/core/IconButton'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Scrollbar from '../../components/Scrollbar'
 import Tooltip from '@material-ui/core/Tooltip'
 import isGranted from '../../utils/auth'
@@ -18,104 +18,102 @@ import { withFirebase } from 'firekit-provider'
 import { withRouter } from 'react-router-dom'
 import { withTheme } from '@material-ui/core/styles'
 
-class EditDocumentActivity extends Component {
-  _handleDelete = async handleClose => {
-    const { history, match, firebaseApp, path } = this.props
-    const uid = match.params.uid
+const EditDocumentActivity = props => {
+  const {
+    history,
+    match,
+    firebaseApp,
+    path,
+    setSimpleValue,
+    intl,
+    submit,
+    isGranted,
+    children,
+    fireFormProps,
+    handleDelete,
+    name,
+  } = props
+  const _handleDelete = useCallback(
+    async handleClose => {
+      const uid = match.params.uid
 
-    if (uid) {
-      await firebaseApp.firestore().doc(`/${path}/${uid}`).delete()
-      handleClose()
-      history.goBack()
-    }
-  }
+      if (uid) {
+        await firebaseApp.firestore().doc(`/${path}/${uid}`).delete()
+        handleClose()
+        history.goBack()
+      }
+    },
+    [firebaseApp, history, match.params.uid, path]
+  )
 
-  hanldeSubmitSuccess = () => {
-    const { history, path } = this.props
+  const hanldeSubmitSuccess = useCallback(() => {
     history.push(`/${path}`)
-  }
+  }, [history, path])
 
-  render() {
-    const {
-      history,
-      setSimpleValue,
-      intl,
-      submit,
-      match,
-      isGranted,
-      firebaseApp,
-      children,
-      fireFormProps,
-      handleDelete,
-      name,
-      path,
-    } = this.props
+  const uid = useMemo(() => match.params.uid, [match.params.uid])
 
-    const uid = match.params.uid
+  return (
+    <Activity
+      title={intl.formatMessage({
+        id: match.params.uid ? `edit_${name}` : `create_${name}`,
+      })}
+      appBarContent={
+        <div style={{ display: 'flex' }}>
+          {((uid !== undefined && isGranted(`edit_${name}`)) ||
+            (uid === undefined && isGranted(`create_${name}`))) && (
+            <Tooltip title={intl.formatMessage({ id: 'save' })}>
+              <IconButton
+                color="inherit"
+                aria-label="save"
+                onClick={() => {
+                  submit(name)
+                }}
+              >
+                <Save />
+              </IconButton>
+            </Tooltip>
+          )}
+          {uid && isGranted(`delete_${name}`) && (
+            <Tooltip title={intl.formatMessage({ id: 'delete' })}>
+              <IconButton
+                color="inherit"
+                aria-label="delete"
+                onClick={() => {
+                  setSimpleValue(`delete_${name}`, true)
+                }}
+              >
+                <Delete />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+      }
+      onBackClick={() => {
+        history.goBack()
+      }}
+    >
+      <Scrollbar style={{ height: 'calc(100vh - 112px)' }}>
+        <div style={{ margin: 15, display: 'flex' }}>
+          <FireForm
+            useFirestore={true}
+            firebaseApp={firebaseApp}
+            name={name}
+            path={path}
+            uid={match.params.uid}
+            onSubmitSuccess={hanldeSubmitSuccess}
+            {...fireFormProps}
+          >
+            {children}
+          </FireForm>
+        </div>
+      </Scrollbar>
 
-    return (
-      <Activity
-        title={intl.formatMessage({
-          id: this.props.match.params.uid ? `edit_${name}` : `create_${name}`,
-        })}
-        appBarContent={
-          <div style={{ display: 'flex' }}>
-            {((uid !== undefined && isGranted(`edit_${name}`)) ||
-              (uid === undefined && isGranted(`create_${name}`))) && (
-              <Tooltip title={intl.formatMessage({ id: 'save' })}>
-                <IconButton
-                  color="inherit"
-                  aria-label="save"
-                  onClick={() => {
-                    submit(name)
-                  }}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            )}
-            {uid && isGranted(`delete_${name}`) && (
-              <Tooltip title={intl.formatMessage({ id: 'delete' })}>
-                <IconButton
-                  color="inherit"
-                  aria-label="delete"
-                  onClick={() => {
-                    setSimpleValue(`delete_${name}`, true)
-                  }}
-                >
-                  <Delete />
-                </IconButton>
-              </Tooltip>
-            )}
-          </div>
-        }
-        onBackClick={() => {
-          history.goBack()
-        }}
-      >
-        <Scrollbar style={{ height: 'calc(100vh - 112px)' }}>
-          <div style={{ margin: 15, display: 'flex' }}>
-            <FireForm
-              useFirestore={true}
-              firebaseApp={firebaseApp}
-              name={name}
-              path={path}
-              uid={match.params.uid}
-              onSubmitSuccess={this.hanldeSubmitSuccess}
-              {...fireFormProps}
-            >
-              {children}
-            </FireForm>
-          </div>
-        </Scrollbar>
-
-        <DeleteDialog
-          name={name}
-          handleDelete={handleDelete ? handleDelete : this._handleDelete}
-        />
-      </Activity>
-    )
-  }
+      <DeleteDialog
+        name={name}
+        handleDelete={handleDelete ? handleDelete : _handleDelete}
+      />
+    </Activity>
+  )
 }
 
 EditDocumentActivity.propTypes = {
